@@ -1,0 +1,16 @@
+body {
+    background-image: url("pics/desktop.jpg");
+}
+
+.iconSettings {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    bottom: 0px;  
+}
+
+.textSettings {
+    position: absolute;
+    bottom: 0px;
+    left: 200px;
+}
