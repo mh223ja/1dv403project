@@ -8,11 +8,13 @@ var Project = {
 
     init: function() {
         console.log("hi");
-        Project.renderDesktop();
+        Project.getImages();
+        //Project.renderDesktop();
         //Project.renderWindow();
         //Project.getImages();
         //Project.changeImage();
     },
+
 
     renderDesktop: function() {
         
@@ -37,7 +39,7 @@ var Project = {
         footer.appendChild(desktopText);
         desktopText.innerHTML = "Morgan's fab desktop gallery";
         
-        iconInfo.onClick = Project.renderWindow (); 
+        iconInfo.addEventListener("click", Project.renderWindow());
         
            
           
@@ -47,9 +49,12 @@ var Project = {
 
     renderWindow: function() {
         console.log("here");
-        var containerDiv = document.getElementById("container");
+  
+        //var windowDiv = window.open("toolbar = no, location = no, status = no, menubar = no, scrollbars=yes, resizable=yes, width = 40%, height = 40%");
+    
+        var imageContainer = document.getElementById("container");
         var windowDiv = document.createElement("div");
-        containerDiv.appendChild(windowDiv);
+        imageContainer.appendChild(windowDiv);
 
         var windowHeader = document.createElement("div");
         windowDiv.appendChild(windowHeader);
@@ -58,21 +63,39 @@ var Project = {
         windowHeader.appendChild(headerText);
         headerText.innerHTML = "Image Viewer";
         console.log("there");
+        
+        Project.getImages();
+      
     },
 
-    getImages: function() {
-        var thumbnailInfo;
-        var xhr = new XMLHttpRequest();
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                thumbnailInfo = JSON.parse(xhr.responseText);
-            }
-        }
-    },
-
-    changeImage: function() {
-
-    }
-
+     getImages: function() {
+         console.log("you");
+        var xhr= new XMLHttpRequest();
+        xhr.open('GET', "http://://homepage.lnu.se/staff/tstjo/labbyServer/imgviewer/", true);
+        xhr.send(null);
+        //xhr.setRequestHeader("content-type", "application/json");
+         xhr.addEventListener("readystatechange", function() {
+            console.log(xhr.readyState);
+        }, false);
+        xhr.onreadystatechange = function(e){
+            console.log("are");
+            if(xhr.readyState == 4){
+                console.log(xhr.status);
+                if(xhr.status == 200){
+                    console.log(xhr.responseText);
+                    var thumbImages = JSON.parse(xhr.responseText);
+                    console.log(thumbImages);
+                    
+                    console.log("here");
+               }
+                }
+            };
+     xhr.open('GET', "http://homepage.lnu.se/staff/tstjo/labbyServer/imgviewer/", true);
+        xhr.send(null);
+        },
+        
 };
+               
+      
+    
 window.onload = Project.init;
