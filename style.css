@@ -1,5 +1,9 @@
 body {
-    background-image: url("pics/desktop.jpg");
+   background-image: url("pics/desktop.jpg");
+}
+
+.thumbDiv{
+    background-color: #FFF;
 }
 
 .iconSettings {

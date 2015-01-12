@@ -3,22 +3,23 @@
 "use strict";
 var Project = {
 
-    thumbnails: null,
+    thumbImages: [],
     background: null,
+    windowDiv:undefined,
+    container: undefined,
 
     init: function() {
         console.log("hi");
-        Project.getImages();
-        //Project.renderDesktop();
-        //Project.renderWindow();
-        //Project.getImages();
+       Project.renderDesktop();
+       //Project.renderWindow();
+       //Project.getImages();
         //Project.changeImage();
     },
 
 
     renderDesktop: function() {
         
-
+    
         var footer = document.getElementById("footer");
         var iconDiv = document.createElement("div");
         footer.appendChild(iconDiv);
@@ -41,9 +42,6 @@ var Project = {
         
         iconInfo.addEventListener("click", Project.renderWindow());
         
-           
-          
-
         console.log("hi again");
     },
 
@@ -53,11 +51,11 @@ var Project = {
         //var windowDiv = window.open("toolbar = no, location = no, status = no, menubar = no, scrollbars=yes, resizable=yes, width = 40%, height = 40%");
     
         var imageContainer = document.getElementById("container");
-        var windowDiv = document.createElement("div");
-        imageContainer.appendChild(windowDiv);
+        Project.windowDiv = document.createElement("div");
+        imageContainer.appendChild(Project.windowDiv);
 
         var windowHeader = document.createElement("div");
-        windowDiv.appendChild(windowHeader);
+        Project.windowDiv.appendChild(windowHeader);
 
         var headerText = document.createElement("p");
         windowHeader.appendChild(headerText);
@@ -71,7 +69,7 @@ var Project = {
      getImages: function() {
          console.log("you");
         var xhr= new XMLHttpRequest();
-        xhr.open('GET', "http://://homepage.lnu.se/staff/tstjo/labbyServer/imgviewer/", true);
+        xhr.open('GET', "http://homepage.lnu.se/staff/tstjo/labbyServer/imgviewer/", true);
         xhr.send(null);
         //xhr.setRequestHeader("content-type", "application/json");
          xhr.addEventListener("readystatechange", function() {
@@ -83,18 +81,72 @@ var Project = {
                 console.log(xhr.status);
                 if(xhr.status == 200){
                     console.log(xhr.responseText);
-                    var thumbImages = JSON.parse(xhr.responseText);
-                    console.log(thumbImages);
-                    
+                    Project.thumbImages = JSON.parse(xhr.responseText);
+                    console.log(Project.thumbImages);
                     console.log("here");
+                    Project.displayImages();
                }
                 }
             };
-     xhr.open('GET', "http://homepage.lnu.se/staff/tstjo/labbyServer/imgviewer/", true);
+        xhr.open('GET', "http://homepage.lnu.se/staff/tstjo/labbyServer/imgviewer/", true);
         xhr.send(null);
         },
         
+        displayImages: function(){
+            console.log("Displayimages");
+            console.log(Project.thumbImages);
+            thumbImg=undefined;
+            var imageMaxWidth = 0;
+            var imageMaxHeight = 0;
+    
+             for(var i = 0; i<Project.thumbImages.length;i++){
+                        var thumbImageInfo=Project.thumbImages[i];
+                        
+                        
+                        console.log(thumbImageInfo.thumbWidth);
+                        var thumbDiv = document.createElement("div");
+                        var thumbImg = document.createElement("img");
+                        thumbImg.setAttribute("src", thumbImageInfo.thumbURL);
+                        //thumbImg.style.maxWidth=thumbImageInfo.thumbWidth;
+                        //thumbImg.style.maxHeight=thumbImageInfo.thumbHeight;
+                        Project.windowDiv.appendChild(thumbDiv);
+                        thumbDiv.appendChild(thumbImg);
+                        
+                        var setImageLink = document.createElement("a");
+                        setImageLink.url=Project.thumbImages[i].URL;
+                        setImageLink.setAttribute("href", setImageLink.url);
+                        setImageLink.url=Project.thumbImages[i].URL;
+                        console.log(setImageLink);
+                        thumbImg.appendChild(setImageLink);
+                      
+                        
+                        if(Project.thumbImages[i].thumbWidth> imageMaxWidth){
+                          imageMaxWidth = Project.thumbImages[i].thumbWidth;
+                          thumbDiv.style.maxWidth=imageMaxWidth;
+                        }
+                        if(Project.thumbImages[i].thumbHeight>imageMaxHeight){
+                            imageMaxHeight= Project.thumbImages[i].thumbHeight;
+                            thumbDiv.style.maxHeight=imageMaxHeight;
+                        }
+                        
+                        
+                        
+                    
+                    }
+                   
+        },
+        
+        
+        changeDesktop: function(thumbImageInfo){
+            var desktopContainer= document.getElementById("container");
+            var chosenThumbUrl = thumbImageInfo.thumbUrl;
+            desktopContainer.style.backgroundImage = "url('chosenThumbUrl')";
+            
+        
+}
 };
+
+
                
       
     
