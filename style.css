@@ -22,7 +22,7 @@ body {
 #windowDiv{
     width: 50%;
     height: 80%;
-    background-color: #FFF;
+    background-color: gray;
 }
 
 #windowHeader{
@@ -44,7 +44,14 @@ body {
 
 
 #thumbDiv {
-    background-color: pink;
+    background-color: white;
     border: solid;
     border: 5px;
+}
+
+#loadingImage {
+    
+    width: 20px;
+    height: 20px;
+    
 }

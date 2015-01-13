@@ -55,7 +55,7 @@ var Project = {
            
            
           
-            
+            Project.renderWindow();
         };
     },
 
@@ -90,23 +90,15 @@ var Project = {
         var headerImage = document.createElement("img");
         headerImage.setAttribute("src", "pics/windows_close_program_98973.jpg");
         headerImage.setAttribute("Id", "headerImage");
-        //closeWindow.addEventListener("click", function() {  
-            //imageContainer.removeChild(Project.windowDiv);
-      //  });
-       //headerImage.appendChild(closeWindow);
         
-       /* closeWindow.onclick= function(){
-            imageContainer.removeChild(Project.windowDiv);
-        };*/
         
           
         var loadingImg =document.createElement("img");
         loadingImg.setAttribute("src", "pics/loading2.gif");
         loadingImg.setAttribute("Id", "loadingImg");
-        
-        windowHeader.appendChild(loadingImg);
-        windowHeader.appendChild(headerImage);
-        headerImage.appendChild(closeWindow);
+       
+       windowHeader.appendChild(closeWindow);
+       closeWindow.appendChild(headerImage);
        
        
         console.log("there");
@@ -141,59 +133,18 @@ var Project = {
         xhr.send(null);
         },
         
-        displayImages: function(){
-            console.log("Displayimages");
-            console.log(Project.thumbImages);
-            
-            var imageMaxWidth = 0;
-            var imageMaxHeight = 0;
-            var thumbImageInfo;
-            var setImageLink;
-            var thumbImg;
-            var thumbDiv;
-             for(var i = 0; i<Project.thumbImages.length;i++){
-                        thumbImageInfo=Project.thumbImages[i];
-                        thumbImageInfo.i = i;
-                        
-                        console.log(thumbImageInfo.thumbWidth);
-                        thumbDiv = document.createElement("div");
-                        thumbDiv.setAttribute("Id", "thumbDiv");
-                        thumbImg = document.createElement("img");
-                        thumbImg.setAttribute("src", thumbImageInfo.thumbURL);
-                        //thumbImg.addEventListener(MouseEvent.Click, Project.changeDesktop(this.i));
-                        //thumbImg.style.maxWidth=thumbImageInfo.thumbWidth;
-                        //thumbImg.style.maxHeight=thumbImageInfo.thumbHeight;
-                        Project.windowDiv.appendChild(thumbDiv);
-                        thumbDiv.appendChild(thumbImg);
-                        
-                        setImageLink = document.createElement("a");
-                        setImageLink.setAttribute("href", "#");
-                        //setImageLink.url=Project.thumbImages[i].URL;
-                        //setImageLink.onClick(Project.changeBackground);
-                        console.log(setImageLink);
-                        //setImageLink.addEventListener("click", function(e){
-                            //Project.changeDesktop(thumbImg);
-                    
-                        thumbImg.appendChild(setImageLink);
-                       Project.changeDesktop(Project.thumbImages[i].URL, setImageLink);
-                       
-                       }
-        
-                       //Project.addOnClick(thumbImg);
-                     
-             },
+      a
               // Project.addOnClick();
              
         
-      /* addOnClick: function(){
-            var clickDiv = document.getElementById("thumbDiv");
-            console.log(clickDiv.a);
-            var link = clickDiv.a;
-            link.onmousedown = function(){
-                Project.changeDesktop();
-                
-                
-            };*/
+      addOnClick: function(image){
+            var link = document.getElementById("setImageLink");
+         
+            link.onclick = function(){
+                alert("CLICK");
+                Project.changeDesktop(image);
+            };
+      },
             
                 
             
@@ -206,23 +157,12 @@ var Project = {
         
         
         
-        changeDesktop: function(image, link){
+        changeDesktop: function(image){
             
             console.log(image);
-            console.log(link);
-            link.onclick=function(){
-                alert("click");
-            document.getElementById("container").style.background="url('image')";
-           //var desktopContainer= document.getElementById("container");
-            //var chosenThumbUrl = thumbImageInfo.URL;
-           // console.log(chosenThumbUrl) ;
-            
-           // desktopContainer.style.backgroundImage="url("chosenThumbUrl")";
-            
-            };
-}
+           
+            document.getElementById("container").style.background="url('image.src')";
+            }
 };
 
-
-    
 window.onload = Project.init;

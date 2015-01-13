@@ -3,6 +3,7 @@
 var Project = {
     
     thumbImages: [],
+    windowDiv: undefined,
     
     init: function(){
        
@@ -31,13 +32,13 @@ var Project = {
              var imageContainer = document.getElementById("container");
         
         
-        var windowDiv = document.createElement("div");
-        windowDiv.setAttribute("Id", "windowDiv");
-        imageContainer.appendChild(windowDiv);
+        Project.windowDiv = document.createElement("div");
+        Project.windowDiv.setAttribute("Id", "windowDiv");
+        imageContainer.appendChild(Project.windowDiv);
 
         var windowHeader = document.createElement("div");
         windowHeader.setAttribute("Id", "windowHeader");
-        windowDiv.appendChild(windowHeader);
+        Project.windowDiv.appendChild(windowHeader);
 
         var headerText = document.createElement("p");
         headerText.setAttribute("Id", "headerText");
@@ -55,7 +56,7 @@ var Project = {
         closeLink.onclick= function(){
             console.log("click");
             counter = 0;
-            imageContainer.removeChild(windowDiv);
+            imageContainer.removeChild(Project.windowDiv);
         };
         
        windowHeader.appendChild(closeLink);
@@ -73,11 +74,101 @@ var Project = {
        
         console.log("there");
         
-       // Project.getImages();
+        Project.getImages();
+        
+        
         };
     
-    }
+    },
     
+      getImages: function() {
+         console.log("you");
+        var loadingIcon = document.getElementById("loadingImg");
+        console.log(loadingIcon);
+        var xhr= new XMLHttpRequest();
+     
+         xhr.addEventListener("readystatechange", function() {
+            console.log(xhr.readyState);
+        }, false);
+        xhr.onreadystatechange = function(e){
+            console.log("are");
+            if(xhr.readyState == 4){
+                console.log(xhr.status);
+                if(xhr.status == 200){
+                    console.log(xhr.responseText);
+                    loadingIcon.parentNode.removeChild(loadingIcon);
+                    console.log(loadingIcon);
+                    Project.thumbImages = JSON.parse(xhr.responseText);
+                    console.log(Project.thumbImages);
+                    console.log("here");
+                    Project.displayImages();
+               }
+                }
+            };
+        xhr.open('GET', "http://homepage.lnu.se/staff/tstjo/labbyServer/imgviewer/", true);
+        xhr.send(null);
+        },
+          
+           displayImages: function(){
+            console.log("Displayimages");
+            console.log(Project.thumbImages);
+            
+            var maxWidth=0;
+            var maxHeight=0;
+            var thumbImageInfo;
+            var setImageLink;
+            var thumbImg;
+            var thumbDiv;
+             for(var i = 0; i<Project.thumbImages.length;i++){
+                        thumbImageInfo=Project.thumbImages[i];
+                       // thumbImageInfo.i = i;
+                        
+                        
+                        thumbDiv = document.createElement("div");
+                        thumbDiv.setAttribute("Id", "thumbDiv");
+                        thumbImg = document.createElement("img");
+                        thumbImg.setAttribute("src", thumbImageInfo.thumbURL);
+                      
+                
+                        
+                        setImageLink = document.createElement("a");
+                        setImageLink.setAttribute("href", "#");
+                        setImageLink.setAttribute("Id", "setImageLink");
+                        setImageLink.url=Project.thumbImages[i].URL;
+                     
+                        thumbDiv.appendChild(setImageLink);
+                        setImageLink.appendChild(thumbImg);
+                       
+                        Project.windowDiv.appendChild(thumbDiv);
+                        
+                        if(Project.thumbImages[i].thumbWidth> maxWidth){
+                            maxWidth = Project.thumbImages[i].thumbWidth;
+                        }
+                        
+                        if(Project.thumbImages[i].thumbHeight>maxHeight){
+                            maxHeight = Project.thumbImages[i].thumbHeight;
+                        }
+                        //Project.changeDesktop(Project.thumbImages[i].URL, setImageLink);
+                        
+                        thumbDiv.style.height = maxHeight + "px";
+                        thumbDiv.style.width = maxWidth + "px";
+                       }
+                       //Project.littleBoxes();
+    
+             },
+             
+          
+             
+          changeDesktop: function(){
+             var link = document.getElementById("setImageLink");
+             console.log(link);
+             
+              link.onclick=function(){
+              var background = document.getElementById("container");
+              background.style.backgroundImage ="url(" + this + ")";
+          };
+          }
+        
 };
 
 window.onload=Project.init;
