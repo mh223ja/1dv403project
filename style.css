@@ -18,3 +18,33 @@ body {
     bottom: 0px;
     left: 200px;
 }
+
+#windowDiv{
+    width: 50%;
+    height: 80%;
+    background-color: #FFF;
+}
+
+#windowHeader{
+    width: 50%;
+    height: 5%;
+    
+}
+
+#headerText{
+    font-family: Verdena;
+    
+}
+
+#headerImage{
+    width: 20px;
+    height: 20px;
+    margin-right: 0px;
+}
+
+
+#thumbDiv {
+    background-color: pink;
+    border: solid;
+    border: 5px;
+}

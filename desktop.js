@@ -1,5 +1,4 @@
 /*global*/
-
 "use strict";
 var Project = {
 
@@ -7,10 +6,12 @@ var Project = {
     background: null,
     windowDiv:undefined,
     container: undefined,
-
+    //thumbImg: undefined,
+    counter:0,
+    
     init: function() {
         console.log("hi");
-       Project.renderDesktop();
+       Project.renderDesktop(); //initialize and set up desktop
        //Project.renderWindow();
        //Project.getImages();
         //Project.changeImage();
@@ -19,8 +20,10 @@ var Project = {
 
     renderDesktop: function() {
         
+        //set up basic desktop layout with icon at bottom
     
         var footer = document.getElementById("footer");
+        
         var iconDiv = document.createElement("div");
         footer.appendChild(iconDiv);
 
@@ -31,18 +34,29 @@ var Project = {
         
         var iconInfo = document.createElement("a");
         iconInfo.setAttribute("href", "#");
+        //iconInfo.addEventListener("click", Project.renderWindow());
         //iconImage.appendChild(imageInfo);
         iconInfo.appendChild(iconImage);
         iconDiv.appendChild(iconInfo);
-        
+      
+    
         var desktopText = document.createElement("p");
         desktopText.className = "textSettings";
         footer.appendChild(desktopText);
         desktopText.innerHTML = "Morgan's fab desktop gallery";
         
-        iconInfo.addEventListener("click", Project.renderWindow());
+        //adds window on icon click
         
-        console.log("hi again");
+        iconImage.onclick = function(){
+            Project.counter++;
+            if(Project.counter>1){
+                return false;
+            }
+           
+           
+          
+            
+        };
     },
 
     renderWindow: function() {
@@ -51,15 +65,50 @@ var Project = {
         //var windowDiv = window.open("toolbar = no, location = no, status = no, menubar = no, scrollbars=yes, resizable=yes, width = 40%, height = 40%");
     
         var imageContainer = document.getElementById("container");
+        
+        
         Project.windowDiv = document.createElement("div");
+        Project.windowDiv.setAttribute("Id", "windowDiv");
         imageContainer.appendChild(Project.windowDiv);
 
         var windowHeader = document.createElement("div");
+        windowHeader.setAttribute("Id", "windowHeader");
         Project.windowDiv.appendChild(windowHeader);
 
         var headerText = document.createElement("p");
+        headerText.setAttribute("Id", "headerText");
         windowHeader.appendChild(headerText);
         headerText.innerHTML = "Image Viewer";
+         
+        var closeWindow = document.createElement("a");
+        closeWindow.setAttribute("href", "#");
+        closeWindow.onclick= function(){
+            Project.counter = 0;
+            imageContainer.removeChild(Project.windowDiv);
+        };
+       
+        var headerImage = document.createElement("img");
+        headerImage.setAttribute("src", "pics/windows_close_program_98973.jpg");
+        headerImage.setAttribute("Id", "headerImage");
+        //closeWindow.addEventListener("click", function() {  
+            //imageContainer.removeChild(Project.windowDiv);
+      //  });
+       //headerImage.appendChild(closeWindow);
+        
+       /* closeWindow.onclick= function(){
+            imageContainer.removeChild(Project.windowDiv);
+        };*/
+        
+          
+        var loadingImg =document.createElement("img");
+        loadingImg.setAttribute("src", "pics/loading2.gif");
+        loadingImg.setAttribute("Id", "loadingImg");
+        
+        windowHeader.appendChild(loadingImg);
+        windowHeader.appendChild(headerImage);
+        headerImage.appendChild(closeWindow);
+       
+       
         console.log("there");
         
         Project.getImages();
@@ -69,8 +118,8 @@ var Project = {
      getImages: function() {
          console.log("you");
         var xhr= new XMLHttpRequest();
-        xhr.open('GET', "http://homepage.lnu.se/staff/tstjo/labbyServer/imgviewer/", true);
-        xhr.send(null);
+       // xhr.open('GET', "http://homepage.lnu.se/staff/tstjo/labbyServer/imgviewer/", true);
+       // xhr.send(null);
         //xhr.setRequestHeader("content-type", "application/json");
          xhr.addEventListener("readystatechange", function() {
             console.log(xhr.readyState);
@@ -95,59 +144,85 @@ var Project = {
         displayImages: function(){
             console.log("Displayimages");
             console.log(Project.thumbImages);
-            thumbImg=undefined;
+            
             var imageMaxWidth = 0;
             var imageMaxHeight = 0;
-    
+            var thumbImageInfo;
+            var setImageLink;
+            var thumbImg;
+            var thumbDiv;
              for(var i = 0; i<Project.thumbImages.length;i++){
-                        var thumbImageInfo=Project.thumbImages[i];
-                        
+                        thumbImageInfo=Project.thumbImages[i];
+                        thumbImageInfo.i = i;
                         
                         console.log(thumbImageInfo.thumbWidth);
-                        var thumbDiv = document.createElement("div");
-                        var thumbImg = document.createElement("img");
+                        thumbDiv = document.createElement("div");
+                        thumbDiv.setAttribute("Id", "thumbDiv");
+                        thumbImg = document.createElement("img");
                         thumbImg.setAttribute("src", thumbImageInfo.thumbURL);
+                        //thumbImg.addEventListener(MouseEvent.Click, Project.changeDesktop(this.i));
                         //thumbImg.style.maxWidth=thumbImageInfo.thumbWidth;
                         //thumbImg.style.maxHeight=thumbImageInfo.thumbHeight;
                         Project.windowDiv.appendChild(thumbDiv);
                         thumbDiv.appendChild(thumbImg);
                         
-                        var setImageLink = document.createElement("a");
-                        setImageLink.url=Project.thumbImages[i].URL;
-                        setImageLink.setAttribute("href", setImageLink.url);
-                        setImageLink.url=Project.thumbImages[i].URL;
+                        setImageLink = document.createElement("a");
+                        setImageLink.setAttribute("href", "#");
+                        //setImageLink.url=Project.thumbImages[i].URL;
+                        //setImageLink.onClick(Project.changeBackground);
                         console.log(setImageLink);
-                        thumbImg.appendChild(setImageLink);
-                      
-                        
-                        if(Project.thumbImages[i].thumbWidth> imageMaxWidth){
-                          imageMaxWidth = Project.thumbImages[i].thumbWidth;
-                          thumbDiv.style.maxWidth=imageMaxWidth;
-                        }
-                        if(Project.thumbImages[i].thumbHeight>imageMaxHeight){
-                            imageMaxHeight= Project.thumbImages[i].thumbHeight;
-                            thumbDiv.style.maxHeight=imageMaxHeight;
-                        }
-                        
-                        
-                        
+                        //setImageLink.addEventListener("click", function(e){
+                            //Project.changeDesktop(thumbImg);
                     
-                    }
-                   
-        },
+                        thumbImg.appendChild(setImageLink);
+                       Project.changeDesktop(Project.thumbImages[i].URL, setImageLink);
+                       
+                       }
         
+                       //Project.addOnClick(thumbImg);
+                     
+             },
+              // Project.addOnClick();
+             
         
-        changeDesktop: function(thumbImageInfo){
-            var desktopContainer= document.getElementById("container");
-            var chosenThumbUrl = thumbImageInfo.thumbUrl;
-            desktopContainer.style.backgroundImage = "url('chosenThumbUrl')";
+      /* addOnClick: function(){
+            var clickDiv = document.getElementById("thumbDiv");
+            console.log(clickDiv.a);
+            var link = clickDiv.a;
+            link.onmousedown = function(){
+                Project.changeDesktop();
+                
+                
+            };*/
             
+                
+            
+            //var link = document.getElementById("imageDiv");
+           // switchImages.onclick= function(){
+             //   document.getElementById("container").style.backgroundImage = "url('clickImage.URL')";
+                
+                
+       
         
+        
+        
+        changeDesktop: function(image, link){
+            
+            console.log(image);
+            console.log(link);
+            link.onclick=function(){
+                alert("click");
+            document.getElementById("container").style.background="url('image')";
+           //var desktopContainer= document.getElementById("container");
+            //var chosenThumbUrl = thumbImageInfo.URL;
+           // console.log(chosenThumbUrl) ;
+            
+           // desktopContainer.style.backgroundImage="url("chosenThumbUrl")";
+            
+            };
 }
 };
 
 
-               
-      
     
 window.onload = Project.init;
