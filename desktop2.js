@@ -170,7 +170,7 @@ var Project = {
           changeDesktop: function(image, link){
               console.log("Change");
               link.onclick = function(){
-                  document.getElementById("container").style.background = "url('" + image +"')";
+                  document.getElementById("main").style.background = "url('" + image +"')";
               };
              
            

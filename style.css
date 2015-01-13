@@ -1,6 +1,17 @@
-body {
-   background-image: url("pics/desktop.jpg");
+body{
+    height: 100%;
+    background-color:white;
 }
+
+#main{
+   display:block;
+   background-image: url("pics/desktop.jpg");
+   Position:fixed;
+   width: 1500px;
+   height: 750px;
+}
+
+
 
 .thumbDiv{
     background-color: #FFF;
@@ -20,14 +31,15 @@ body {
 }
 
 #windowDiv{
-    width: 50%;
+    width: 30%;
     height: 80%;
-    background-color: gray;
+    background-color: #bdbdbd;
 }
 
 #windowHeader{
-    width: 50%;
+    width: 100%;
     height: 5%;
+    background-color: #D3D3D3;
     
 }
 
@@ -49,7 +61,7 @@ body {
     border: 5px;
 }
 
-#loadingImage {
+#loadingImg {
     
     width: 20px;
     height: 20px;
