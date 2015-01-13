@@ -165,6 +165,7 @@ var Project = {
     
              },
              
+             
           
              
           changeDesktop: function(image, link){
