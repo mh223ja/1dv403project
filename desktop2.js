@@ -4,6 +4,7 @@ var Project = {
     
     thumbImages: [],
     windowDiv: undefined,
+    counter:0,
     
     init: function(){
        
@@ -24,9 +25,9 @@ var Project = {
         
           
         iconImage.onclick = function(){
-            var counter;
-            counter++;
-            if(counter>1){
+           
+            Project.counter++;
+            if(Project.counter>1){
                 return false;
             }
              var imageContainer = document.getElementById("container");
@@ -54,8 +55,8 @@ var Project = {
         var closeLink = document.createElement("a");
         closeLink.setAttribute("href", "#");
         closeLink.onclick= function(){
-            console.log("click");
-            counter = 0;
+            //console.log("click");
+            Project.counter = 0;
             imageContainer.removeChild(Project.windowDiv);
         };
         
@@ -134,7 +135,9 @@ var Project = {
                         setImageLink = document.createElement("a");
                         setImageLink.setAttribute("href", "#");
                         setImageLink.setAttribute("Id", "setImageLink");
-                        setImageLink.url=Project.thumbImages[i].URL;
+                        //setImageLink.url=Project.thumbImages[i].URL;
+                        
+                        Project.changeDesktop(Project.thumbImages[i].URL, setImageLink);
                      
                         thumbDiv.appendChild(setImageLink);
                         setImageLink.appendChild(thumbImg);
@@ -152,22 +155,30 @@ var Project = {
                         
                         thumbDiv.style.height = maxHeight + "px";
                         thumbDiv.style.width = maxWidth + "px";
+                        
+                        //Project.changeDesktop();
+                        
+                       
                        }
-                       //Project.littleBoxes();
+                      
+                      
     
              },
              
           
              
-          changeDesktop: function(){
-             var link = document.getElementById("setImageLink");
-             console.log(link);
+          changeDesktop: function(image, link){
+              console.log("Change");
+              link.onclick = function(){
+                  document.getElementById("container").style.background = "url('" + image +"')";
+              };
              
-              link.onclick=function(){
-              var background = document.getElementById("container");
-              background.style.backgroundImage ="url(" + this + ")";
-          };
-          }
+           
+             
+              
+           
+          
+          },
         
 };
 
